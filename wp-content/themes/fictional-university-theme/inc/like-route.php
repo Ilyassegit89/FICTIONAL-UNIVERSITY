@@ -44,7 +44,7 @@ function createLike($data) {
 
         
     }else{
-        die('only Loggedin Users can create a like !');
+        die('Only logged in users can create a like.');
     }
      
 }
