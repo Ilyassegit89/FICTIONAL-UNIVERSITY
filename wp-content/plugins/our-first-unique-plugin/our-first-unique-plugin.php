@@ -11,7 +11,30 @@ class WordCountAndTimePlugin{
     function __construct(){
         add_action('admin_menu', array($this, 'adminPage'));
         add_action('admin_init', array($this, 'settings') );
+        add_filter('the_content', array($this, 'ifWrap'));
     }
+    function ifWrap($content){
+        if((is_main_query() AND is_single()) AND 
+        (
+            get_option('wcp_wordcount', '1') OR 
+            get_option('wcp_charactercount', '1') OR 
+            get_option('wcp_readTime', '1')
+        
+        )){
+            return $this->createHTML($content);
+        }
+        return $content;
+    }
+    function createHTML($content){
+        $html = '<h3>' . get_option('wcp_headline', 'Post Statistics') . '</h3><p>';
+        //get word count once because both wordcount and read time will need it.
+        
+        if(get_option('wcp_location', '0') == '0'){
+            return $html . $content;
+        }
+        return $content . $html ;
+    }
+
     function settings(){
         add_settings_section('wcp_first_section', null, null ,'word-count-settings-page');
 
