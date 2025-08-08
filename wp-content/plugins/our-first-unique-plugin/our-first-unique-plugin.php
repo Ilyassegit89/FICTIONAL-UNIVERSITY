@@ -5,6 +5,9 @@ Description: A truly amazing plugin
 Version: 1.0
 Author: Ilyas
 Author URI: https://www.udemy.com/user/
+Text Domain: wcpdomain
+Domain Path: /languages
+
 */
 
 class WordCountAndTimePlugin{
@@ -12,7 +15,12 @@ class WordCountAndTimePlugin{
         add_action('admin_menu', array($this, 'adminPage'));
         add_action('admin_init', array($this, 'settings') );
         add_filter('the_content', array($this, 'ifWrap'));
+        add_action( 'init', array($this, 'languages'));
     }
+    function languages(){
+        load_plugin_textdomain('wcpdomain', false, dirname(plugin_basename(__FILE__)) . '/languages');
+    } 
+
     function ifWrap($content){
         if((is_main_query() AND is_single()) AND 
         (
@@ -28,13 +36,14 @@ class WordCountAndTimePlugin{
     function createHTML($content){
         
         $html = '<h3>' . esc_html(get_option('wcp_headline', 'Post Statistics')) . '</h3><p>';
+
         //get word count once because both wordcount and read time will need it.
         if(get_option('wcp_wordcount', '1') OR get_option('wcp_readtime', '1')){
             $wordCount = str_word_count(strip_tags($content));
         }
 
         if(get_option('wcp_wordcount', '1')){
-            $html .= 'This post has ' . $wordCount . ' words. <br>' ;
+            $html .= esc_html__('This post has', 'wcpdomain'). ' ' . $wordCount . ' ' . esc_html__('words', 'wcpdomain') . '<br>' ;
         }
         if(get_option('wcp_charactercount', '1')){
             $html .= 'This post has ' . strlen(strip_tags($content)) . ' characters. <br>' ;
@@ -93,7 +102,7 @@ class WordCountAndTimePlugin{
     <?php }
 
     function adminPage(){
-        add_options_page('Word Count Settings', 'Word Count', 'manage_options', 'word-count-settings-page',  array($this, 'ourHTML'));
+        add_options_page('Word Count Settings', __('Word Count', 'wcpdomain'), 'manage_options', 'word-count-settings-page',  array($this, 'ourHTML'));
     }
 
     function ourHTML() { ?>
