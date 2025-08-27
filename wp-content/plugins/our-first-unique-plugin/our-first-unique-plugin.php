@@ -43,7 +43,7 @@ class WordCountAndTimePlugin{
         }
 
         if(get_option('wcp_wordcount', '1')){
-            $html .= esc_html__('This post has', 'wcpdomain'). ' ' . $wordCount . ' ' . esc_html__('words', 'wcpdomain') . '<br>' ;
+            $html .= esc_html__('This post has', 'wcpdomain'). ' ' . $wordCount . ' ' .  wp_strip_all_tags( __('words', 'wcpdomain') ) . '<br>' ;
         }
         if(get_option('wcp_charactercount', '1')){
             $html .= 'This post has ' . strlen(strip_tags($content)) . ' characters. <br>' ;
