@@ -26,21 +26,21 @@ function EditComponent(props){
 
         return (
             <div className="paying-attention-edit-block">
-                <TextControl label="Question:" />
-                <p>Answers</p>
+                <TextControl label="Question:" style={{fontSize: '20px'}} />
+                <p style={{fontSize: "13px", margin: "20px 0 8px 0"}}>Answers</p>
                 <Flex>
                     <FlexBlock>
                         <TextControl label="Question:" />
                     </FlexBlock>
                     <FlexItem>
                         <Button>
-                            <Icon icon="star-empty"></Icon>
+                            <Icon className="mark-as-correct" icon="star-empty"></Icon>
                         </Button>
                     </FlexItem>
                     <FlexItem>
-                        <Button>Delete</Button>
+                        <Button isLink className="attention-delete">Delete</Button>
                     </FlexItem>
-
+                    <Button isPrimary>Add another answer</Button>
                 </Flex>
             </div>
         )
