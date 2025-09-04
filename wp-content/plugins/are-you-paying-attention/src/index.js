@@ -1,3 +1,6 @@
+import "./index.scss"
+import {TextControl, Flex, FlexBlock, FlexItem, Button, Icon} from "@wordpress/components"
+
 wp.blocks.registerBlockType('ourplugin/are-you-paying-attention', {
     title: "Are You Paying Attention",
     icon: "smiley",
@@ -6,7 +9,14 @@ wp.blocks.registerBlockType('ourplugin/are-you-paying-attention', {
         skyColor: {type: "string"},
         grassColor: {type: "string"}
     },
-    edit: function (props) {
+    edit: EditComponent,
+    save: function (props) {
+         return null
+    },
+    
+})
+function EditComponent(props){
+    
         function updateSkyColor(event){
             props.setAttributes({skyColor: event.target.value})
         }
@@ -15,14 +25,24 @@ wp.blocks.registerBlockType('ourplugin/are-you-paying-attention', {
         }
 
         return (
-            <div>
-                <input type="text" placeholder="sky color" value={props.attributes.skyColor} onChange={updateSkyColor}/>
-                <input type="text" placeholder="grace color" value={props.attributes.grassColor} onChange={updateGraceColor}/>
+            <div className="paying-attention-edit-block">
+                <TextControl label="Question:" />
+                <p>Answers</p>
+                <Flex>
+                    <FlexBlock>
+                        <TextControl label="Question:" />
+                    </FlexBlock>
+                    <FlexItem>
+                        <Button>
+                            <Icon icon="star-empty"></Icon>
+                        </Button>
+                    </FlexItem>
+                    <FlexItem>
+                        <Button>Delete</Button>
+                    </FlexItem>
+
+                </Flex>
             </div>
         )
-    },
-    save: function (props) {
-         return null
-    },
     
-})
+}
