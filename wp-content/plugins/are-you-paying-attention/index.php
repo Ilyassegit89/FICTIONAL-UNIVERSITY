@@ -24,8 +24,15 @@ class AreYouPayingAttention{
         ));
     }
     function theHTML($attributes) {
+        if(!is_admin(  )){
+            wp_enqueue_script('attentionFrontend', plugin_dir_url(__FILE__) . 'build/frontend.js', array('wp-element'), '1.0', true);
+            wp_enqueue_style("attentionfrontendStyles", plugin_dir_url(__FILE__) . 'build/frontend.css', array('wp-element') );
+        }
+        
         ob_start(); ?> 
-            <h3>Today the sky is <?php echo $attributes['skyColor'] ?> and the grass is <?php echo $attributes['grassColor'] ?> !! </h3>
+        <div class="paying-attention-update-me">
+            
+        </div>
         <?php return ob_get_clean();
 
     }
