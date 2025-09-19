@@ -1,41 +1,67 @@
-<?php 
+<?php
 /*
-Plugin Name: are you paying Attention Quiz
-Description: Give your readers a multiple choice question
+Plugin Name: Are You Paying Attention Quiz
+Description: A quiz block for WordPress with React frontend
 Version: 1.0
-Author: Ilyas
-Author URI: https://www.udemy.com/user/
 */
 
-if(!defined('ABSPATH')) exit; //Exit if accessed directly
+if (!defined('ABSPATH')) {
+    exit;
+}
 
-class AreYouPayingAttention{
-    function __construct(){
-        add_action('init', array($this, 'adminAssets'));
-
+class PayingAttentionQuiz {
+    
+    public function __construct() {
+        add_action('init', array($this, 'init'));
     }
-    function adminAssets(){
-        wp_register_style('quizeditcss', plugin_dir_url(__FILE__) . 'build/index.css');
-        wp_register_script('ournewblocktype', plugin_dir_url(__FILE__) . 'build/index.js', array('wp-blocks', 'wp-element', 'wp-editor'));
+
+    function init() {
+        // Register editor script and styles
+        wp_register_script(
+            'quiz-editor-script',
+            plugin_dir_url(__FILE__) . 'build/index.js',
+            array('wp-blocks', 'wp-element', 'wp-editor', 'wp-components', 'wp-data', 'wp-block-editor'),
+            '1.0',
+            true
+        );
+
+        wp_register_style(
+            'quiz-editor-style',
+            plugin_dir_url(__FILE__) . 'build/index.css',
+            array('wp-edit-blocks'),
+            '1.0'
+        );
+
+        // Register frontend script and styles
+        wp_register_script(
+            'quiz-frontend-script',
+            plugin_dir_url(__FILE__) . 'build/frontend.js',
+            array('wp-element'),
+            '1.0',
+            true
+        );
+
+        wp_register_style(
+            'quiz-frontend-style',
+            plugin_dir_url(__FILE__) . 'build/frontend.css',
+            array(),
+            '1.0'
+        );
+
+        // Register the block
         register_block_type('ourplugin/are-you-paying-attention', array(
-            'editor_script' => 'ournewblocktype',
-            'editor_style' => 'quizeditcss',
+            'editor_script' => 'quiz-editor-script',
+            'editor_style' => 'quiz-editor-style',
+            'script' => 'quiz-frontend-script',
+            'style' => 'quiz-frontend-style',
             'render_callback' => array($this, 'theHTML')
         ));
     }
-    function theHTML($attributes) {
-        if(!is_admin(  )){
-            wp_enqueue_script('attentionFrontend', plugin_dir_url(__FILE__) . 'build/frontend.js', array('wp-element'), '1.0', true);
-            wp_enqueue_style("attentionfrontendStyles", plugin_dir_url(__FILE__) . 'build/frontend.css', array('wp-element') );
-        }
-        
-        ob_start(); ?> 
-        <div class="paying-attention-update-me">
-            
-        </div>
-        <?php return ob_get_clean();
 
+    function theHTML($attributes) {
+        // Return the div that frontend.js will find and replace
+        return '<div class="paying-attention-update-me"><h3>Loading quiz...</h3></div>';
     }
 }
 
-$areYouPayingAttention = new AreYouPayingAttention();
+new PayingAttentionQuiz();

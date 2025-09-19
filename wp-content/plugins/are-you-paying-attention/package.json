@@ -1,17 +1,28 @@
 {
-  "name": "are-you-paying-attention",
+  "name": "wordpress-block-plugin",
   "version": "1.0.0",
-  "main": "test.js",
+  "description": "WordPress block plugin with React JSX support",
+  "main": "index.js",
   "scripts": {
-    "build" : "wp-scripts build src/index.js src/frontend.js",
-    "start" : "wp-scripts start src/index.js src/frontend.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --mode=production",
+    "dev": "webpack --mode=development --watch",
+    "start": "webpack serve --mode=development --open"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "devDependencies": {
-    "@wordpress/scripts": "^30.22.0"
+    "@babel/core": "^7.23.0",
+    "@babel/preset-env": "^7.23.0",
+    "@babel/preset-react": "^7.22.0",
+    "babel-loader": "^9.1.0",
+    "css-loader": "^6.8.0",
+    "mini-css-extract-plugin": "^2.7.0",
+    "sass": "^1.69.0",
+    "sass-loader": "^13.3.0",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.0",
+    "webpack-dev-server": "^4.15.0"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }
