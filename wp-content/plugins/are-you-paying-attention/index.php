@@ -59,8 +59,11 @@ class PayingAttentionQuiz {
     }
 
     function theHTML($attributes) {
-        // Return the div that frontend.js will find and replace
-        return '<div class="paying-attention-update-me"><h3>Loading quiz...</h3></div>';
+        ob_start(); ?>
+        <div class="paying-attention-update-me">
+            <pre style="display:none;"><?php echo wp_json_encode($attributes)?></div></pre>
+        </div>
+        <?php return ob_get_clean();
     }
 }
 
