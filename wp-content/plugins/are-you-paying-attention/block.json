@@ -1,0 +1,13 @@
+{
+  "apiVersion": 2,
+  "name": "ourplugin/are-you-paying-attention",
+  "title": "Are You Paying Attention Quiz",
+  "category": "widgets",
+  "icon": "smiley",
+  "editorScript": "file:./build/index.js",
+  "editorStyle": "file:./build/index.css",
+  "script": "file:./build/frontend.js",
+  "style": "file:./build/frontend.css",
+  "version": "1.1",
+  "description": "A quiz block with React frontend"
+}
