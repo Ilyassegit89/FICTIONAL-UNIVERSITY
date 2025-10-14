@@ -13,6 +13,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+require_once plugin_dir_path(__FILE__) . 'inc/generateProfessorHTML.php';
+
 class FeaturedProfessor {
     
     function __construct() {
@@ -25,15 +27,23 @@ class FeaturedProfessor {
     register_block_type('ourplugin/featured-professor', array(
       'editor_script' => 'blocktypefeatured',
       'editor_style' => 'featureditcss',
-      'render_callback' => array($this, 'theHTML')
+      'render_callback' => array($this, 'renderCallback')
     ));
   }
+  function renderCallback($attributes){
+    if($attributes['profId']){
+      wp_enqueue_style('featureditcss');
+      return generateProfessorHTML($attributes['profId']);
+    }else{
+      return NULL;
+    }
+  }
 
-    function theHTML() {
+    /* function theHTML() {
     ob_start(); ?>
     <h3>Today the sky is !</h3>
     <?php return ob_get_clean();
-  }
+  } */
 }
 
 $featuredProfessor = new FeaturedProfessor();
