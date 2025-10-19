@@ -14,6 +14,7 @@ if (!defined('ABSPATH')) {
 }
 
 require_once plugin_dir_path(__FILE__) . 'inc/generateProfessorHTML.php';
+require_once plugin_dir_path(__FILE__) . 'inc/relatedPostsHTML.php';
 
 
 class FeaturedProfessor {
@@ -21,7 +22,15 @@ class FeaturedProfessor {
     function __construct() {
         add_action('init', array($this, 'adminAssets'));
         add_action('rest_api_init', [$this, 'profHTML']);
+        add_filter('the_content', [$this, 'addRelatedPosts']);
     }
+    function addRelatedPosts($content){
+      if(is_singular('professor') && in_the_loop() && is_main_query()){
+        return $content . relatedPostsHTML(get_the_id());
+      }
+      return $content;
+    }
+
     function profHTML(){
       register_rest_route('featuredProfessor/v1', 'getHTML', array(
         'methods' => WP_REST_SERVER::READABLE,
