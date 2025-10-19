@@ -20,6 +20,7 @@ module.exports = {
     '@wordpress/data': 'wp.data',
     '@wordpress/block-editor': 'wp.blockEditor',
     '@wordpress/editor': 'wp.editor',
+    '@wordpress/api-fetch': ['wp', 'apiFetch'],
     // React externals for WordPress
     'react': 'React',
     'react-dom': 'ReactDOM'

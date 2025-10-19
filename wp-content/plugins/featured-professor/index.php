@@ -15,13 +15,29 @@ if (!defined('ABSPATH')) {
 
 require_once plugin_dir_path(__FILE__) . 'inc/generateProfessorHTML.php';
 
+
 class FeaturedProfessor {
     
     function __construct() {
         add_action('init', array($this, 'adminAssets'));
+        add_action('rest_api_init', [$this, 'profHTML']);
+    }
+    function profHTML(){
+      register_rest_route('featuredProfessor/v1', 'getHTML', array(
+        'methods' => WP_REST_SERVER::READABLE,
+        'callback' => [$this, 'getProfHTML']
+      ));
+    }
+    function getProfHTML($data){ 
+      return generateProfessorHTML($data['profId']);
     }
 
     function adminAssets() {
+      register_meta('post', 'featuredProfessor', array(
+        'show_in_rest' => true,
+        'type' => 'number',
+        'single' => false
+      ));
     wp_register_style('featureditcss', plugin_dir_url(__FILE__) . 'build/index.css');
     wp_register_script('blocktypefeatured', plugin_dir_url(__FILE__) . 'build/index.js', array('wp-blocks', 'wp-element', 'wp-editor'));
     register_block_type('ourplugin/featured-professor', array(
