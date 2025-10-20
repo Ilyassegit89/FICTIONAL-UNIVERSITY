@@ -2,6 +2,8 @@ import "./index.scss"
 import {useSelect} from "@wordpress/data"
 import { useState, useEffect } from "react"
 import apiFetch from '@wordpress/api-fetch'
+const __ = wp.i18n.__
+
 
 wp.blocks.registerBlockType("ourplugin/featured-professor", {
   title: "Professor Callout",
@@ -19,6 +21,11 @@ wp.blocks.registerBlockType("ourplugin/featured-professor", {
 
 function EditComponent(props) {
   const [thePreview, setThePreview] = useState("")
+
+  // Add these debug logs
+  /* console.log('Current locale:', wp.i18n.getLocaleData());
+  console.log('Translation result:', __("Select a professor", "featured-professor"));
+  console.log('Direct Spanish:', "Selecciona un profesor"); */
 
   useEffect(() => {
     if(props.attributes.profId){
@@ -63,7 +70,7 @@ function EditComponent(props) {
     <div className="featured-professor-wrapper">
       <div className="professor-select-container">
         <select onChange={e => props.setAttributes({profId: e.target.value})}>
-          <option value="">Select a professor</option>
+         <option value="">{__("Select a professor", "featured-professor")}</option>
           {allProfs.map(prof => {
             return(
               <option value={prof.id} selected={props.attributes.profId == prof.id}>{prof.title.rendered}</option>

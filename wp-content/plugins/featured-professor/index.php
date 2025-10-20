@@ -5,7 +5,8 @@
   Description: Give your readers a proffesor Insertion
   Version: 1.0
   Author: ilyas
-  Author URI: https://www.udemy.com/user/bradschiff/
+  Author URI: https://www.udemy.com/user/ilyas
+  Domain Path: /languages
 */
 
 
@@ -42,27 +43,38 @@ class FeaturedProfessor {
     }
 
     function adminAssets() {
-      register_meta('post', 'featuredProfessor', array(
+    load_plugin_textdomain('featured-professor', false, dirname(plugin_basename(__FILE__)) . '/languages');
+    
+    register_meta('post', 'featuredProfessor', array(
         'show_in_rest' => true,
         'type' => 'number',
         'single' => false
-      ));
-    wp_register_style('featureditcss', plugin_dir_url(__FILE__) . 'build/index.css');
-    wp_register_script('blocktypefeatured', plugin_dir_url(__FILE__) . 'build/index.js', array('wp-blocks', 'wp-element', 'wp-editor'));
-    register_block_type('ourplugin/featured-professor', array(
-      'editor_script' => 'blocktypefeatured',
-      'editor_style' => 'featureditcss',
-      'render_callback' => array($this, 'renderCallback')
     ));
-  }
-  function renderCallback($attributes){
-    if($attributes['profId']){
-      wp_enqueue_style('featureditcss');
-      return generateProfessorHTML($attributes['profId']);
-    }else{
-      return NULL;
-    }
-  }
+    
+    wp_register_style('featureditcss', plugin_dir_url(__FILE__) . 'build/index.css');
+    
+    // Use text domain as script handle
+    $script_handle = 'featured-professor'; // ← Changed this
+    
+    wp_register_script(
+        $script_handle,
+        plugin_dir_url(__FILE__) . 'build/index.js',
+        array('wp-blocks','wp-element','wp-editor','wp-i18n'),
+        filemtime(plugin_dir_path(__FILE__) . 'build/index.js')
+    );
+    
+    wp_set_script_translations(
+        $script_handle,
+        'featured-professor',
+        plugin_dir_path(__FILE__) . 'languages'
+    );
+    
+    register_block_type('ourplugin/featured-professor', array(
+        'editor_script' => $script_handle,
+        'editor_style' => 'featureditcss',
+        'render_callback' => array($this, 'renderCallback')
+    ));
+}
 
     /* function theHTML() {
     ob_start(); ?>

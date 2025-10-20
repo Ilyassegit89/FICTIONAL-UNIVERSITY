@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@wordpress/api-fetch": "^7.33.0",
+    "@wordpress/i18n": "^6.6.0",
     "react": "^18.2.0",
     "react-color": "^2.19.3",
     "react-dom": "^18.2.0"
