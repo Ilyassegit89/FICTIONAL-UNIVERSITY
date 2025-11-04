@@ -6,7 +6,7 @@ module.exports = {
     // Editor bundle (for WordPress admin)
     index: './src/index.js',
     // Frontend bundle (for public-facing pages)
-    //frontend: './src/frontend.js'
+    frontend: './src/frontend.js'
   },
   output: {
     path: path.resolve(__dirname, 'build'),

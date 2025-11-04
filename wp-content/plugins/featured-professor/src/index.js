@@ -11,7 +11,10 @@ wp.blocks.registerBlockType("ourplugin/featured-professor", {
   icon: "welcome-learn-more",
   category: "common",
   attributes: {
-    profId: {type: "string"}
+    profId: {type: "string"},
+    professorName: {type: "string"},
+    professorContent: {type: "string"},
+    professorLink: {type: "string"},
   },
   edit: EditComponent,
   save: function () {
@@ -66,18 +69,28 @@ function EditComponent(props) {
 
   if(allProfs == undefined) return <p>Loading...</p>
 
+  function handleProfessorChange(e) {
+    const selectedProfId = e.target.value;
+    const selectedProf = allProfs.find(prof => prof.id == selectedProfId);
+    
+    props.setAttributes({
+      profId: selectedProfId,
+      professorName: selectedProf ? selectedProf.title.rendered : "",
+      professorContent: selectedProf ? selectedProf.content.rendered : "",
+      professorLink:  selectedProf ? selectedProf.link : ""
+    });
+  }
+  
   return (
     <div className="featured-professor-wrapper">
       <div className="professor-select-container">
-        <select onChange={e => props.setAttributes({profId: e.target.value})}>
+        <select onChange={handleProfessorChange}>
          <option value="">{__("Select a professor", "featured-professor")}</option>
           {allProfs.map(prof => {
             return(
               <option value={prof.id} selected={props.attributes.profId == prof.id}>{prof.title.rendered}</option>
             )
           })}
-          
-
         </select>
       </div>
       <div dangerouslySetInnerHTML={{__html: thePreview}}></div>

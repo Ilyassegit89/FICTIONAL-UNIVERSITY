@@ -62,6 +62,20 @@ class FeaturedProfessor {
         array('wp-blocks','wp-element','wp-editor','wp-i18n'),
         filemtime(plugin_dir_path(__FILE__) . 'build/index.js')
     );
+     wp_register_script(
+            'featured-professor-front',
+            plugin_dir_url(__FILE__) . 'build/frontend.js',
+            array('wp-element'),
+            '1.0',
+            true
+        );
+
+    wp_register_style(
+            'featured-professor-front-style',
+            plugin_dir_url(__FILE__) . 'build/index.css',
+            array(),
+            '1.0'
+        );
     
     wp_set_script_translations(
         $script_handle,
@@ -72,15 +86,19 @@ class FeaturedProfessor {
     register_block_type('ourplugin/featured-professor', array(
         'editor_script' => $script_handle,
         'editor_style' => 'featureditcss',
+        'script' => 'featured-professor-front',
+        'style' => 'featured-professor-front-style',
         'render_callback' => array($this, 'renderCallback')
     ));
 }
 
-    /* function theHTML() {
-    ob_start(); ?>
-    <h3>Today the sky is !</h3>
-    <?php return ob_get_clean();
-  } */
+    function renderCallback($attributes) {
+        ob_start(); ?>
+        <div class="featured-professor-plugin">
+            <pre style="display:none;"><?php echo wp_json_encode($attributes)?></div></pre>
+        </div>
+        <?php return ob_get_clean();
+  }
 }
 
 $featuredProfessor = new FeaturedProfessor();
